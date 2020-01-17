@@ -121,7 +121,7 @@ const downloadWallpapers = () => {
 
         const dl = new DownloaderHelper(target_url, pathToSave, { fileName: file_name });
 
-        dl.on('end', () => console.log('Downloaded ' + parseInt(index + 1) + ' of ' + wallpaperLinks.length));
+        dl.on('end', () => git.log('Downloaded ' + parseInt(index + 1) + ' of ' + wallpaperLinks.length));
 
         dl.start();
 
@@ -153,7 +153,6 @@ const readDirectoryFiles = () => {
     files.forEach(file => {
         directoryFiles.push(file);
     })
-    console.log(directoryFiles)
 }
 
 
