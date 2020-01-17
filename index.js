@@ -74,7 +74,8 @@ const fetchPosts = async (name, sort, limit, dir) => {
                     if (directoryFiles.indexOf(post.data.title.slice(0, fileTitleLength)) == -1) {
                         imgurWallpaperLinks.push({
                             title: post.data.title,
-                            url: post.data.url
+                            url: post.data.url,
+                            extension: post.data.url.substr(post.data.url.length - 4)
                         })
                     } else {
                         console.log(`${post.data.title} is already downloaded!`)
