@@ -14,9 +14,5 @@ if (subredditName === '' || subredditName === undefined) {
 } else if (postLimit > 100 || postLimit <= 0 || postLimit === undefined || postLimit === '') {
     console.log("Limit can be only between 0 and 100");
     return false;
-} else if (sortBy !== 'new' || sortBy !== 'hot') {
-    console.log('sortBy can only be "hot" or "new"');
-    return false;
 }
-
 fetchPosts(subredditName, sortBy, postLimit, dir);
