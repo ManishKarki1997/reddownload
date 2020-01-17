@@ -1,6 +1,3 @@
-#!/usr/bin/env node
-
-
 const axios = require('axios');
 const cheerio = require('cheerio');
 const request = require('request');
@@ -16,9 +13,9 @@ const fs = require('fs');
 
 const baseAPI = "https://www.reddit.com/r/";
 
-let subredditName = argv.name;
-let postLimit = argv.limit || 100;
-let sortBy = argv.sort || 'new';
+let subredditName;
+let sortBy;
+let postLimit;
 let fileTitleLength = 14;
 
 const wallpaperLinks = [];
@@ -28,8 +25,13 @@ let directoryFiles = [];
 
 
 
-const fetchPosts = async () => {
+const fetchPosts = async (name, sort, limit) => {
+
     try {
+
+        subredditName = name;
+        sortBy = sort;
+        postLimit = limit;
 
         // if user didn't specify subreddit name, throw an error
         if (argv.name === undefined) throw ("Please provide a subreddit name");
@@ -138,4 +140,5 @@ const readDirectoryFiles = () => {
 }
 
 
-fetchPosts();
+// fetchPosts();
+exports.fetchPosts = fetchPosts;
