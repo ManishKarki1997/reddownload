@@ -1,5 +1,5 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
+const cheerio = require('cheerio'); //to scrape imgur wallpapers
 const request = require('request');
 const { DownloaderHelper } = require('node-downloader-helper');
 
@@ -54,16 +54,18 @@ const fetchPosts = async (name, sort, limit, dir) => {
             checkIfFolderExists();
 
             posts.forEach(post => {
+                // If the image is either an image or gif only
                 if (post.data.url.match(/\.(jpeg|jpg|gif|png)$/) != null) {
 
+                    const fileExtension = post.data.url.substr(post.data.url.length - 4);
+
                     // If the file doesn't already exist, set it up for download!!!
-                    // console.log(post.data.url.substr(post.data.url.length - 4))
-                    if (directoryFiles.indexOf(post.data.title.slice(0, fileTitleLength)) == -1) {
+                    if (directoryFiles.indexOf(post.data.title.slice(0, fileTitleLength) + fileExtension) == -1) {
 
                         wallpaperLinks.push({
                             title: post.data.title,
                             url: post.data.url,
-                            extension: post.data.url.substr(post.data.url.length - 4)
+                            extension: fileExtension
                         });
                     } else {
                         console.log(`${post.data.title} is already downloaded!`)
@@ -71,11 +73,12 @@ const fetchPosts = async (name, sort, limit, dir) => {
 
                 } else if (post.data.domain === 'imgur.com') {
 
-                    if (directoryFiles.indexOf(post.data.title.slice(0, fileTitleLength)) == -1) {
+
+                    if (directoryFiles.indexOf(post.data.title.slice(0, fileTitleLength) + fileExtension) == -1) {
                         imgurWallpaperLinks.push({
                             title: post.data.title,
                             url: post.data.url,
-                            extension: post.data.url.substr(post.data.url.length - 4)
+                            extension: fileExtension
                         })
                     } else {
                         console.log(`${post.data.title} is already downloaded!`)
@@ -148,8 +151,9 @@ const readDirectoryFiles = () => {
     checkIfFolderExists();
     const files = fs.readdirSync(pathToSave);
     files.forEach(file => {
-        directoryFiles.push(path.basename(file));
+        directoryFiles.push(file);
     })
+    console.log(directoryFiles)
 }
 
 
