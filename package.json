@@ -1,6 +1,6 @@
 {
   "name": "reddownload",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Download Wallpaper and GIFs from subreddits.",
   "main": "index.js",
   "scripts": {
