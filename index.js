@@ -16,7 +16,8 @@ const baseAPI = "https://www.reddit.com/r/";
 let subredditName;
 let sortBy;
 let postLimit;
-let fileTitleLength = 14;
+let pathToSave;
+let fileTitleLength = 18;
 
 const wallpaperLinks = [];
 const imgurWallpaperLinks = [];
@@ -25,13 +26,19 @@ let directoryFiles = [];
 
 
 
-const fetchPosts = async (name, sort, limit) => {
+const fetchPosts = async (name, sort, limit, dir) => {
 
     try {
 
         subredditName = name;
         sortBy = sort;
         postLimit = limit;
+
+        if (dir !== undefined || dir !== null) {
+            pathToSave = path.join(dir, subredditName)
+        } else {
+            pathToSave = path.join(__dirname, subredditName)
+        }
 
         // if user didn't specify subreddit name, throw an error
         if (argv.name === undefined) throw ("Please provide a subreddit name");
@@ -50,12 +57,13 @@ const fetchPosts = async (name, sort, limit) => {
                 if (post.data.url.match(/\.(jpeg|jpg|gif|png)$/) != null) {
 
                     // If the file doesn't already exist, set it up for download!!!
-
+                    // console.log(post.data.url.substr(post.data.url.length - 4))
                     if (directoryFiles.indexOf(post.data.title.slice(0, fileTitleLength)) == -1) {
 
                         wallpaperLinks.push({
                             title: post.data.title,
-                            url: post.data.url
+                            url: post.data.url,
+                            extension: post.data.url.substr(post.data.url.length - 4)
                         });
                     } else {
                         console.log(`${post.data.title} is already downloaded!`)
@@ -92,18 +100,22 @@ const fetchPosts = async (name, sort, limit) => {
 }
 
 const checkIfFolderExists = () => {
-    if (!fs.existsSync(path.join(__dirname, subredditName))) {
-        fs.mkdirSync(subredditName);
+
+    if (!fs.existsSync(pathToSave)) {
+        fs.mkdirSync(pathToSave);
     }
+
+
 }
 
 const downloadWallpapers = () => {
+
     wallpaperLinks.forEach((wallpaper, index) => {
 
         const target_url = wallpaper.url;
-        const file_name = wallpaper.title.slice(0, fileTitleLength); //full title gave some error while saving, so gonna have to slice it :(
-        // const file_path = path.join(path.join(__dirname, subredditName), file_name);
-        const dl = new DownloaderHelper(target_url, path.join(__dirname, subredditName), { fileName: file_name });
+        const file_name = wallpaper.title.slice(0, fileTitleLength) + wallpaper.extension; //full title gave some error while saving, i'm suspecting because of use of emoji, so gonna have to slice it :(
+
+        const dl = new DownloaderHelper(target_url, pathToSave, { fileName: file_name });
 
         dl.on('end', () => console.log('Downloaded ' + parseInt(index + 1) + ' of ' + wallpaperLinks.length));
 
@@ -133,7 +145,7 @@ const getImgurWalls = () => {
 
 const readDirectoryFiles = () => {
     checkIfFolderExists();
-    const files = fs.readdirSync(path.join(__dirname, subredditName));
+    const files = fs.readdirSync(pathToSave);
     files.forEach(file => {
         directoryFiles.push(path.basename(file));
     })

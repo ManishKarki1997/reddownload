@@ -1,6 +1,6 @@
 {
   "name": "reddownload",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Download Wallpaper and GIFs from subreddits.",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "yargs": "^15.1.0"
   },
   "bin": {
-    "reddownload": "./index.js"
+    "reddownload": "bin/reddownload.js"
   },
   "preferGlobal": true
 }
