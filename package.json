@@ -1,0 +1,22 @@
+{
+  "name": "reddownload",
+  "version": "1.0.2",
+  "description": "Download Wallpaper and GIFs from subreddits.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Manish Karki",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.1",
+    "cheerio": "^1.0.0-rc.3",
+    "node-downloader-helper": "^1.0.11",
+    "request": "^2.88.0",
+    "yargs": "^15.1.0"
+  },
+  "bin": {
+    "reddownload": "./index.js"
+  },
+  "preferGlobal": true
+}
