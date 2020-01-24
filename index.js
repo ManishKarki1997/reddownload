@@ -55,20 +55,22 @@ const fetchPosts = async (name, sort, limit, dir) => {
 
             posts.forEach(post => {
                 // If the image is either an image or gif only
+                const fileExtension = post.data.url.substr(post.data.url.length - 4);
                 if (post.data.url.match(/\.(jpeg|jpg|gif|png)$/) != null) {
 
-                    const fileExtension = post.data.url.substr(post.data.url.length - 4);
+                    if (fileExtension) {
 
-                    // If the file doesn't already exist, set it up for download!!!
-                    if (directoryFiles.indexOf(post.data.title.slice(0, fileTitleLength) + fileExtension) == -1) {
+                        // If the file doesn't already exist, set it up for download!!!
+                        if (directoryFiles.indexOf(post.data.title.slice(0, fileTitleLength) + fileExtension) == -1) {
 
-                        wallpaperLinks.push({
-                            title: post.data.title,
-                            url: post.data.url,
-                            extension: fileExtension
-                        });
-                    } else {
-                        console.log(`${post.data.title} is already downloaded!`)
+                            wallpaperLinks.push({
+                                title: post.data.title,
+                                url: post.data.url,
+                                extension: fileExtension
+                            });
+                        } else {
+                            console.log(`${post.data.title} is already downloaded!`)
+                        }
                     }
 
                 } else if (post.data.domain === 'imgur.com') {
@@ -82,7 +84,6 @@ const fetchPosts = async (name, sort, limit, dir) => {
                         })
                     } else {
                         console.log(`${post.data.title} is already downloaded!`)
-
                     }
                 }
 
