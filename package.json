@@ -9,7 +9,7 @@
   "author": "Manish Karki",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.1",
+    "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.3",
     "node-downloader-helper": "^1.0.11",
     "request": "^2.88.0",
